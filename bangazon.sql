@@ -58,23 +58,14 @@ CREATE TABLE `emp_computer` (
 	`emp_id`	INTEGER,
 	`computer_id`	INTEGER
 );
-CREATE TABLE "emp" (
-	`emp_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`emp_fname`	TEXT,
-	`emp_lname`	TEXT,
-	`dept_id`	INTEGER,
-	`is_supervisor`	INTEGER,
-	FOREIGN KEY(`dept_id`) REFERENCES `department`(`dept_id`)
-);
+
 CREATE TABLE "department" (
 	`dept_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`dept_name`	TEXT,
-	`budget`	NUMERIC,
-	`emp_id`	INTEGER,
-	FOREIGN KEY(`emp_id`) REFERENCES `employee`(`emp_id`)
+	`budget`	NUMERIC
 );
-INSERT INTO `department` (dept_id,dept_name,budget,emp_id) VALUES (1,'IT',30000,1),
- (2,'Accounts',40000,2);
+INSERT INTO `department` (dept_id,dept_name,budget,emp_id) VALUES (1,'IT',30000),
+ (2,'Accounts',40000);
 CREATE TABLE "customers" (
 	`customer_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`cust_fname`	TEXT,
