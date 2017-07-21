@@ -18,15 +18,21 @@ CREATE TABLE `product_type` (
 	`product_type_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`type`	TEXT
 );
+CREATE TABLE `payment_type` (
+	`payment_type_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`payment_type`	TEXT
+);
 CREATE TABLE "orders" (
 	`order_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`order_Date`	TEXT,
 	`cust_id`	INTEGER,
-	`payment_type`	TEXT,
+	`payment_type_id`	TEXT,
 	`complete`	INTEGER,
+	FOREIGN KEY(payment_type_id) references payment_type(payment_type_id),
 	FOREIGN KEY(cust_id) references customers(cust_id)
+
 );
-INSERT INTO `orders` (order_id,order_Date,cust_id,payment_type,complete) VALUES (1,'7/15/2017',1,'visa','yes');
+INSERT INTO `orders` (order_id,order_Date,cust_id,payment_type_id,complete) VALUES (1,'7/15/2017',1,1,'yes');
 CREATE TABLE `order_product` (
 	`order_id`	INTEGER,
 	`product_id`	INTEGER
@@ -37,8 +43,7 @@ CREATE TABLE "employee" (
 	`emp_lname`	TEXT,
 	`dept_id`	INTEGER,
 	`is_supervisor`	INTEGER,
-FOREIGN KEY(dept_id) references department(dept_id)
-
+	FOREIGN KEY(dept_id) references department(dept_id)
 );
 INSERT INTO `employee` (emp_id,emp_fname,emp_lname,dept_id,is_supervisor) VALUES (1,'Edwin','Turner',2,'yes'),
  (2,'Maddy','Albright',2,'no'),
@@ -53,14 +58,23 @@ CREATE TABLE `emp_computer` (
 	`emp_id`	INTEGER,
 	`computer_id`	INTEGER
 );
+CREATE TABLE "emp" (
+	`emp_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`emp_fname`	TEXT,
+	`emp_lname`	TEXT,
+	`dept_id`	INTEGER,
+	`is_supervisor`	INTEGER,
+	FOREIGN KEY(`dept_id`) REFERENCES `department`(`dept_id`)
+);
 CREATE TABLE "department" (
 	`dept_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`dept_name`	TEXT,
 	`budget`	NUMERIC,
-	FOREIGN KEY(emp_id) references employee(emp_id)
+	`emp_id`	INTEGER,
+	FOREIGN KEY(`emp_id`) REFERENCES `employee`(`emp_id`)
 );
-INSERT INTO `department` (dept_id,dept_name,budget) VALUES (1,'IT',30000),
- (2,'Accounts',40000);
+INSERT INTO `department` (dept_id,dept_name,budget,emp_id) VALUES (1,'IT',30000,1),
+ (2,'Accounts',40000,2);
 CREATE TABLE "customers" (
 	`customer_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`cust_fname`	TEXT,
